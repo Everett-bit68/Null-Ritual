@@ -1,0 +1,29 @@
+:root{
+    --bg-color: black;
+    --text-color: #9f1e1e;
+    --font-stack: 'Courier New', monospace;
+}
+body.terminal-theme{
+    background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-stack); height: 100vh;
+    margin: 0; display: flex; justify-content: center; align-items: center; overflow: hidden;
+}
+.terminal-container{
+    width: 90%; max-width: 800px; height: 80vh; border: 1px solid var(--text-color);
+    box-shadow: 0 0 15px rgba(168,32,32,0.4); padding: 20px; display: flex; flex-direction: column;
+}
+.output-log{
+    flex-grow: 1; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; margin-bottom: 10px;
+}
+.input-line{
+    display: flex; gap: 10px;
+}
+#userInput{
+    background: transparent; border: none; outline: none; color: var(--text-color); font-family: var(--font-stack); font-size: 1rem; width: 100%;
+}
+.glitch-active{
+    animation: jitter 0.1s infinite alternate; filter: invert(1);
+}
+@keyframes jitter {
+    0%{transform: translate(1px, -1px);}
+    100%{transform: translate(-2px, 2px);}
+}
