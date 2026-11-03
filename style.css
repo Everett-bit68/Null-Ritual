@@ -23,6 +23,9 @@ body.terminal-theme{
 .glitch-active{
     animation: jitter 0.1s infinite alternate; filter: invert(1);
 }
+.critical-error{
+    color: white; background-color: #a82020; font-weight: bold; padding: 2px 5px;
+}
 @keyframes jitter {
     0%{transform: translate(1px, -1px);}
     100%{transform: translate(-2px, 2px);}
