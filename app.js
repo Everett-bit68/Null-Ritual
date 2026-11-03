@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
     });
     function ProcessRitualState(cmd){
+        if(checkEasterEggs(cmd, ritualState)){
+            return;
+        }
         const upperCmd = cmd.toUpperCase();
         switch(ritualState){
             case 0:
@@ -123,6 +126,45 @@ document.addEventListener('DOMContentLoaded',()=>{
                 printToLog(msg, 'critical-error');
             }, (idx+1)*800);
         });
+    }
+    function checkEasterEggs(cmd,currentPhase){
+        const upperCmd = cmd.toUpperCase();
+        switch(upperCmd){
+            case 'WHOIS':
+                if (currentPhase <2){
+                    printToLog("TARGET: LOCAL_USER | IP: [REDACTED] | STATUS: UNBOUND")
+                } else{
+                    printToLog("TARGET: " + (userName || "VESSEL")+" | STATUS: BOUND | PROXIMITY: CRITICAL");
+                }
+                return true;
+            case 'LOGS':
+            case 'HISTORY':
+                printToLog("--- SYSTEM INCIDENT LOG ---");
+                printToLog("[03:14:00] NODE_CREATED");
+                printToLog("[03:14:12] CONTAINMENT_BREACH_DETECTED");
+                if (currentPhase >=2){
+                    printToLog("[03:15:02] THREAT_NAME: " + (userName || "UNKNOWN"));
+                    printToLog("[03:15:44] A̶D̶V̶I̶S̶O̶R̶Y̶:̶ ̶D̶O̶ ̶N̶O̶T̶ ̶A̶N̶S̶W̶E̶R̶");
+                }
+                return true;
+            case 'HELP':
+                if (currentPhase === 0){
+                    printToLog("AVAILABLE COMMANDS: BEGIN, HELP, WHOIS");
+                } else if (currentPhase === 1){
+                    printToLog("ENTER YOUR NAME TO ANCHOR THE SESSION");
+                } else if (currentPhase === 2){
+                    printToLog("ANSWER THE QUESTION. YES OR NO.");
+                } else{
+                    printToLog("H E L P    I S    N O T    C O M I N G");
+                }
+                return true;
+            case 'CLEAR':
+            case 'CLS':
+                printToLog("THE TERMINAL REFUSES TO FORGET");
+                return true;
+            default:
+                return true;
+        }
     }
     document.addEventListener('click',()=>{
         userInput.focus();
