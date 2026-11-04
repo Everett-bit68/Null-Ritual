@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     let ritualState = 0;
     let userName = "";
     let corruptionIntensity = 0;
+    let titleInterval = null;
     const bootSequence = [
         "INITIALIZING Null Ritual v1.0.0...",
         "ESTABLISHING SECURE HANDSHAKE WITH UNKNOWN NODE...",
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                     ritualState = 3;
                     corruptionIntensity = 2;
                     triggerHeavyGlitch();
+                    startTitleGlitch();
                     setTimeout(()=>{
                         printToLog("-------------------------------------");
                         printToLog("WARNING: CONTAINMENT PROTOCOL FAILED");
@@ -169,4 +171,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.addEventListener('click',()=>{
         userInput.focus();
     });
+    function startTitleGlitch(userName = "VESSEL"){
+        if (titleInterval) return;
+        const spookyTitles = [
+            "⚠️ IT SEE U",
+            "👀 DON'T LOOK AWAY"
+            `🔓 TARGET LOCKED: ${userName}`,
+            "H E L P   Y O U R S E L F"
+        ];
+        let index = 0;
+        titleInterval = setInterval(()=>{
+            document.title = spookyTitles[index];
+            index = (index + 1) % spookyTitles.length;
+        }, 2500);
+    }
+    function resetTabTitle(){
+        if (titleInterval) clearInterval(titleInterval);
+        document.title = "THE RITUAL OF UNSEEING";
+    }
 });
