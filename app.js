@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     const outputLog = document.getElementById('outputLog');
     const userInput = document.getElementById('userInput');
     const bodyElement = document.body;
-    let ritualState = 0;
-    let userName = "";
-    let corruptionIntensity = 0;
+    let ritualState = parseInt(localStorage.getItem('nullRitualState')) || 0;
+    let userName = localStorage.getItem('nullRitualUser') ||"";
+    let corruptionIntensity = ritualState > 1 ? 2:(ritualState === 1?1:0);
     let titleInterval = null;
     const bootSequence = [
         "INITIALIZING Null Ritual v1.0.0...",
@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             case 0:
                 if (upperCmd === 'BEGIN'){
                     ritualState = 1;
+                    localStorage.setItem('nullRitualState',ritualState);
                     printToLog("CONNECTION ACCEPTED. The perimeter is sealed.");
                     setTimeout(()=>{
                         printToLog("State your true name to anchor your soul to this terminal:");
@@ -63,6 +64,8 @@ document.addEventListener('DOMContentLoaded',()=>{
                 userName = cmd;
                 ritualState = 2;
                 corruptionIntensity = 1;
+                localStorage.setItem('nullRitualState',ritualState);
+                localStorage.setItem('nullRitualUser',userName);
                 printToLog(`ANCHOR LOCKED: ${userName}.`);
                 triggerVisualGlitch();
                 setTimeout(()=>{
@@ -75,6 +78,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                     printToLog(`You answered: ${upperCmd}. A grave mistake.`);
                     ritualState = 3;
                     corruptionIntensity = 2;
+                    localStorage.setItem('nullRitualState',ritualState);
                     triggerHeavyGlitch();
                     startTitleGlitch();
                     setTimeout(()=>{
@@ -164,6 +168,9 @@ document.addEventListener('DOMContentLoaded',()=>{
             case 'CLS':
                 printToLog("THE TERMINAL REFUSES TO FORGET");
                 return true;
+            case 'RESET':
+                localStorage.clear();
+                printToLog("LOCAL MEMORY WIPED. (Refresh page to restart boot)");
             default:
                 return false;
         }
