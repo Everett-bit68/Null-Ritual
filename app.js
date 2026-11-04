@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (e.key === 'Enter'){
             const rawCommand = userInput.value.trim();
             if (!rawCommand && ritualState !== 2) return;
-            printToLog(`> #{rawCommand}`, 'user-command');
+            printToLog(`> ${rawCommand}`, 'user-command');
             userInput.value = '';
             ProcessRitualState(rawCommand);
         }
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 triggerVisualGlitch();
                 setTimeout(()=>{
                     printToLog("-------------------------------------");
-                    printToLog("ENTITY: Can you hear it scratching behind the monitor," + userName + "? {YES/NO)");
+                    printToLog("ENTITY: Can you hear it scratching behind the monitor, " + userName + "? (YES/NO)");
                 }, 800);
                 break;
             case 2:
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     function triggerVisualGlitch(){
         bodyElement.classList.add('glitch-active');
         setTimeout(()=>{
-            bodyElement.classList.add('glitch-active');
+            bodyElement.classList.remove('glitch-active');
         }, 300);
     }
     function triggerHeavyGlitch(){
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 printToLog("THE TERMINAL REFUSES TO FORGET");
                 return true;
             default:
-                return true;
+                return false;
         }
     }
     document.addEventListener('click',()=>{
