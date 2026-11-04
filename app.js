@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (titleInterval) return;
         const spookyTitles = [
             "⚠️ IT SEE U",
-            "👀 DON'T LOOK AWAY"
+            "👀 DON'T LOOK AWAY",
             `🔓 TARGET LOCKED: ${userName}`,
             "H E L P   Y O U R S E L F"
         ];
