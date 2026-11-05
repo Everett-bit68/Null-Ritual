@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const bootSequence = [];
     if (ritualState > 0){
         bootSequence.push(
-            `YOU CAME BACK, {$userName || 'VESSEL'}. YOU CANNOT UNDRAW THE CIRCLE`,
+            `YOU CAME BACK, ${userName || 'VESSEL'}. YOU CANNOT UNDRAW THE CIRCLE`,
             "--------------------------------------------------"
         );
         if (ritualState === 3){
