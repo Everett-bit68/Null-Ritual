@@ -6,13 +6,29 @@ document.addEventListener('DOMContentLoaded',()=>{
     let userName = localStorage.getItem('nullRitualUser') ||"";
     let corruptionIntensity = ritualState > 1 ? 2:(ritualState === 1?1:0);
     let titleInterval = null;
-    const bootSequence = [
+    const bootSequence = [];
+    if (ritualState > 0){
+        bootSequence.push(
+            `YOU CAME BACK, {$userName || 'VESSEL'}. YOU CANNOT UNDRAW THE CIRCLE`,
+            "--------------------------------------------------"
+        );
+        if (ritualState === 3){
+            bootSequence.push("CONTAINMENT ALREADY BREACHED");
+            bootSequence.push("Type 'PURGE' to attempt emergency abort");
+            startTitleGlitch(userName);
+            triggerHeavyGlitch();
+        } else{
+            bootSequence.push(`RESUMING RITUAL. TYPE 'HELP' OR CONTINUE`);
+        }
+    } else{
+        bootSequence.push(
         "INITIALIZING Null Ritual v1.0.0...",
         "ESTABLISHING SECURE HANDSHAKE WITH UNKNOWN NODE...",
         "WARNING: Session monitored by unauthorized entity.",
         "--------------------------------------------------",
         "Type 'BEGIN' to initiate the connection, or 'HELP' for instructions."
-    ];
+        );
+    }
     function printToLog(text, className = ''){
         const line = document.createElement('div');
         line.textContent = text;
