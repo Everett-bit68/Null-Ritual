@@ -17,12 +17,16 @@ document.addEventListener('DOMContentLoaded',()=>{
             bootSequence.push("Type 'PURGE' to attempt emergency abort");
             startTitleGlitch(userName);
             triggerHeavyGlitch();
-        } else{
-            bootSequence.push(`RESUMING RITUAL. TYPE 'HELP' OR CONTINUE`);
+        } else if(ritualState === 2){
+            bootSequence.push(`RESUMING SESSION...`);
+            bootSequence.push(`ENTITY: Can you hear it scratching behind the monitor, ${userName || 'VESSEL'}? (YES/NO)`);
+        } else if(ritualState === 1){
+            bootSequence.push(`RESUMING SESSION...`);
+            bootSequence.push("State your true name to anchor your soul to this terminal:");
         }
     } else{
         bootSequence.push(
-        "INITIALIZING Null Ritual v1.0.0...",
+        "INITIALIZING Null Ritual...",
         "ESTABLISHING SECURE HANDSHAKE WITH UNKNOWN NODE...",
         "WARNING: Session monitored by unauthorized entity.",
         "--------------------------------------------------",
