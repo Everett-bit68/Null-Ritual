@@ -329,14 +329,14 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (!staticNode){
             const buffersize = 2*audioCtx.sampleRate;
             const noiseBuffer = audioCtx.createBuffer(1, buffersize, audioCtx.sampleRate);
-            const output = noiseBuffer.getchannelData(0);
+            const output = noiseBuffer.getChannelData(0);
             for (let i = 0; i < buffersize; i++){
                 output[i] = Math.random() * 2 - 1;
             }
             staticNode = audioCtx.createBufferSource();
             staticNode.buffer = noiseBuffer;
             staticNode.loop = true;
-            const filter = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
             filter.type = 'bandpass';
             filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
             filter.Q.setValueAtTime(2, audioCtx.currentTime);
