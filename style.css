@@ -29,7 +29,7 @@ body.terminal-theme{
 .system-crash-overlay{
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #8b0000; color: white;
     display: flex;flex-direction: column;justify-content: center;align-items: center;font-family: 'Courier New', Courier, monospace;
-    z-index: 9999;opacity: 0;pointer-events: none;transform: opacity 0.5s ease-in-out;
+    z-index: 9999;opacity: 0;pointer-events: none;transition: opacity 0.5s ease-in-out;
 }
 .system-crash-overlay.active{
     opacity: 1;pointer-events: auto;

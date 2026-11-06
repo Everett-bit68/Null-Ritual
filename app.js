@@ -199,6 +199,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             case 'RESET':
                 localStorage.clear();
                 printToLog("LOCAL MEMORY WIPED. (Refresh page to restart boot)");
+                return true;
             default:
                 return false;
         }
@@ -224,4 +225,11 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (titleInterval) clearInterval(titleInterval);
         document.title = "THE RITUAL OF UNSEEING";
     }
+    window.addEventListener('keydown',()=>{
+        const crashOverlay = document.getElementById("crashOverlay");
+        if (crashOverlay && crashOverlay.classList.contains('active')){
+            localStorage.clear();
+            location.reload();
+        }
+    });
 });
