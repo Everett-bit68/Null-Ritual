@@ -140,7 +140,9 @@ document.addEventListener('DOMContentLoaded',()=>{
         bodyElement.style.backgroundColor = '#200000';
         userInput.disabled = true;
         userInput.placeholder = "TERMINAL COMPROMISED";
-
+        setTimeout(()=>{
+            window.alert("⚠️ WINDOWS SECURITY EXCEPTION: Unauthorized remote handshake detected from unknown node.");
+        }, 400);
         let glitchMessages = [
             "I T    I S    A L R E A D Y    H E R E",
             "01010011 01010101 010100011 01000101",
@@ -152,6 +154,12 @@ document.addEventListener('DOMContentLoaded',()=>{
                 printToLog(msg, 'critical-error');
             }, (idx+1)*800);
         });
+        setTimeout(()=>{
+            const crashOverlay = document.getElementById('crashOverlay');
+            if (crashOverlay){
+                crashOverlay.classList.add('active');
+            }
+        }, 4500);
     }
     function checkEasterEggs(cmd,currentPhase){
         const upperCmd = cmd.toUpperCase();
