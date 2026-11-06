@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     let commandHistory = [];
     let historyIndex = -1;
     let idleTimer = null;
+    let audioCtx = null;
+    let subBassOsc = null;
+    let subBassGain = null;
+    let staticNode = null;
+    let staticGain = null;
     const IDLE_TIMEOUT = 20000;
     const bootSequence = [];
     if (ritualState > 0){
@@ -69,6 +74,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                     ritualState = 1;
                     localStorage.setItem('nullRitualState',ritualState);
                     resetIdleTimer();
+                    updateAudioIntensity(1);
                     printToLog("CONNECTION ACCEPTED. The perimeter is sealed.");
                     setTimeout(()=>{
                         printToLog("State your true name to anchor your soul to this terminal:");
@@ -97,6 +103,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                     ritualState = 3;
                     corruptionIntensity = 2;
                     localStorage.setItem('nullRitualState',ritualState);
+                    updateAudioIntensity(2);
                     triggerHeavyGlitch();
                     startTitleGlitch();
                     setTimeout(()=>{
@@ -203,6 +210,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
     }
     document.addEventListener('click',()=>{
+        startAmbientAudio();
         userInput.focus();
     });
     function startTitleGlitch(userName = "VESSEL"){
@@ -296,5 +304,63 @@ document.addEventListener('DOMContentLoaded',()=>{
         printToLog(randomMsg, 'critical-error');
         triggerVisualGlitch();
         resetIdleTimer();
+    }
+    function initAudio(){
+        if (audioCtx) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+    }
+    function startAmbientAudio(){
+        initAudio();
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended'){
+            audioCtx.resume();
+        }
+        if (!subBassOsc){
+            subBassOsc = audioCtx.createOscillator();
+            subBassOsc.type = 'sine';
+            subBassOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
+            subBassGain = audioCtx.createGain();
+            subBassGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+            subBassOsc.connect(subBassGain);
+            subBassGain.connect(audioCtx.destination);
+            subBassOsc.start();
+        }
+        if (!staticNode){
+            const buffersize = 2*audioCtx.sampleRate;
+            const noiseBuffer = audioCtx.createBuffer(1, buffersize, audioCtx.sampleRate);
+            const output = noiseBuffer.getchannelData(0);
+            for (let i = 0; i < buffersize; i++){
+                output[i] = Math.random() * 2 - 1;
+            }
+            staticNode = audioCtx.createBufferSource();
+            staticNode.buffer = noiseBuffer;
+            staticNode.loop = true;
+            const filter = audioCtx.createGain();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            filter.Q.setValueAtTime(2, audioCtx.currentTime);
+            staticGain = audioCtx.createGain();
+            staticGain.gain.setValueAtTime(0.005, audioCtx.currentTime);
+            staticNode.connect(filter);
+            filter.connect(staticGain);
+            staticGain.connect(audioCtx.destination);
+            staticNode.start();
+        }
+    }
+    function updateAudioIntensity(intensity){
+        if (!audioCtx || !subBassGain || !staticGain) return;
+        if (intensity === 0){
+            subBassGain.gain.setTargetAtTime(0.02, audioCtx.currentTime, 1);
+            staticGain.gain.setTargetAtTime(0.005, audioCtx.currentTime, 1);
+        } else if (intensity === 1){
+            subBassGain.gain.setTargetAtTime(0.08,audioCtx.currentTime, 1);
+            staticGain.gain.setTargetAtTime(0.02, audioCtx.currentTime, 1);
+            if (subBassOsc) subBassOsc.frequency.setTargetAtTime(45,audioCtx.currentTime,1);
+        } else if (intensity >=2){
+            subBassGain.gain.setTargetAtTime(0.25,audioCtx.currentTime,0.5);
+            staticGain.gain.setTargetAtTime(0.07, audioCtx.currentTime,0.5);
+            if (subBassOsc) subBassOsc.frequency.setTargetAtTime(30,audioCtx.currentTime, 0.5);
+        }
     }
 });
