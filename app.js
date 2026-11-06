@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         },delay * index);
     });
     userInput.addEventListener('input', (e) => {
+        resetIdleTimer();
         if (corruptionIntensity > 1 && Math.random() < 0.3){
             const glitchChars = ['#', '$', 'X','Ø','0', '_','?'];
             const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
@@ -65,6 +66,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 if (upperCmd === 'BEGIN'){
                     ritualState = 1;
                     localStorage.setItem('nullRitualState',ritualState);
+                    resetIdleTimer();
                     printToLog("CONNECTION ACCEPTED. The perimeter is sealed.");
                     setTimeout(()=>{
                         printToLog("State your true name to anchor your soul to this terminal:");
@@ -79,6 +81,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 corruptionIntensity = 1;
                 localStorage.setItem('nullRitualState',ritualState);
                 localStorage.setItem('nullRitualUser',userName);
+                resetIdleTimer();
                 printToLog(`ANCHOR LOCKED: ${userName}.`);
                 triggerVisualGlitch();
                 setTimeout(()=>{
@@ -226,6 +229,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
     });
     userInput.addEventListener('keydown',(e)=>{
+        resetIdleTimer();
         if (e.key === 'ArrowUp'){
             e.preventDefault();
             if(ritualState === 3 && Math.random() < 0.4){
@@ -271,4 +275,24 @@ document.addEventListener('DOMContentLoaded',()=>{
             ProcessRitualState(rawCommand);
         }
     });
+    function resetIdleTimer(){
+        clearTimeout(idleTimer);
+        if(ritualState > 0 && ritualState < 3){
+            idleTimer = setTimeout(triggerIdleEvent, IDLE_TIMEOUT);
+        }
+    }
+    function triggerIdleEvent(){
+        const targetName = userName || 'VESSEL';
+        const idleMessages = [
+            `ENTITY: Why have you stopped, ${targetName}?`,
+            `ENTITY: Silence won't save you`,
+            `ENTITY: Are you still there, ${targetName}? I can hear your breathing`,
+            `ENTITY: Do not keep me waiting.`
+        ];
+        const randomMsg = idleMessages[Math.floor(Math.random()*idleMessages.length)];
+        printToLog("---------------------------------");
+        printToLog(randomMsg, 'critical-error');
+        triggerVisualGlitch();
+        resetIdleTimer();
+    }
 });
