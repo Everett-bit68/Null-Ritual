@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     let userName = localStorage.getItem('nullRitualUser') ||"";
     let corruptionIntensity = ritualState > 1 ? 2:(ritualState === 1?1:0);
     let titleInterval = null;
+    let commandHistory = [];
+    let historyIndex = -1;
     const bootSequence = [];
     if (ritualState > 0){
         bootSequence.push(
@@ -45,15 +47,6 @@ document.addEventListener('DOMContentLoaded',()=>{
         setTimeout(()=>{
             printToLog(line);
         },delay * index);
-    });
-    userInput.addEventListener('keydown',(e)=>{
-        if (e.key === 'Enter'){
-            const rawCommand = userInput.value.trim();
-            if (!rawCommand && ritualState !== 2) return;
-            printToLog(`> ${rawCommand}`, 'user-command');
-            userInput.value = '';
-            ProcessRitualState(rawCommand);
-        }
     });
     userInput.addEventListener('input', (e) => {
         if (corruptionIntensity > 1 && Math.random() < 0.3){
@@ -230,6 +223,52 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (crashOverlay && crashOverlay.classList.contains('active')){
             localStorage.clear();
             location.reload();
+        }
+    });
+    userInput.addEventListener('keydown',(e)=>{
+        if (e.key === 'ArrowUp'){
+            e.preventDefault();
+            if(ritualState === 3 && Math.random() < 0.4){
+                const hauntedInputs = [
+                    "PLEASE STOP",
+                    "I AM STILL IN THE ROOM",
+                    "IT CAN READ MY SCREEN",
+                    "PURGE WAS A LIE"
+                ];
+                userInput.value = hauntedInputs[Math.floor(Math.random()*hauntedInputs.length)];
+                return;
+            }
+            if (commandHistory.length > 0){
+                if (historyIndex === -1){
+                    historyIndex = commandHistory.length - 1;
+                } else if (historyIndex > 0){
+                    historyIndex--;
+                }
+                userInput.value = commandHistory[historyIndex];
+            }
+        }
+        else if (e.key === 'ArrowDown'){
+            e.preventDefault();
+            if (historyIndex !== -1){
+                if (historyIndex < commandHistory.length - 1){
+                    historyIndex++;
+                    userInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex= -1;
+                    userInput.value ='';
+                }
+            }
+        }
+        else if(e.key === 'Enter'){
+            const rawCommand = userInput.value.trim();
+            if (!rawCommand && ritualState !==2) return;
+            if (rawCommand && (commandHistory.length ===0|| commandHistory[commandHistory.length-1] !==rawCommand)){
+                commandHistory.push(rawCommand);
+            }
+            historyIndex = -1;
+            printToLog(`> ${rawCommand}`, 'user-command');
+            userInput.value = '';
+            ProcessRitualState(rawCommand);
         }
     });
 });
