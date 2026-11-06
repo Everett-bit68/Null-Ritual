@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     let titleInterval = null;
     let commandHistory = [];
     let historyIndex = -1;
+    let idleTimer = null;
+    const IDLE_TIMEOUT = 20000;
     const bootSequence = [];
     if (ritualState > 0){
         bootSequence.push(
