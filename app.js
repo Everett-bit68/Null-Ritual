@@ -18,10 +18,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     let lastKeystrokeTime = 0;
     let rapidKeystrokeCount = 0;
     let typingDecayTimer = null;
+    let networkInfiltrationTimer = null;
     const bootSequence = [];
     let totalResets = parseInt(localStorage.getItem('nullRitualResets'))||0;
     let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
     if (ritualState > 0){
+        startAmbientAudio();
+        updateAudioIntensity();
+        startNetworkInfiltration();
         bootSequence.push(
             `YOU CAME BACK, ${userName || 'VESSEL'}. YOU CANNOT UNDRAW THE CIRCLE`,
             "--------------------------------------------------"
@@ -91,6 +95,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                     ritualState = 1;
                     localStorage.setItem('nullRitualState',ritualState);
                     resetIdleTimer();
+                    startNetworkInfiltration();
                     updateAudioIntensity(1);
                     printToLog("CONNECTION ACCEPTED. The perimeter is sealed.");
                     setTimeout(()=>{
@@ -428,5 +433,24 @@ document.addEventListener('DOMContentLoaded',()=>{
             }
         }, 300);
         printToLog("ENTITY: Hesitation is surrender...",'critical-error');
+    }
+    function startNetworkInfiltration(){
+        if (networkInfiltrationTimer) return;
+        networkInfiltrationTimer = setInterval(()=>{
+            if (ritualState < 1 || ritualState >=3) return;
+            const randomIPs = [
+                "0x7F001", "192.168.1.666", "10.0.4.99", "0xFFFFF", "172.16.88.2"
+            ];
+            const fakeIP = randomIPs[Math.floor(Math.random()*randomIPs.length)];
+            const infiltrationLogs = [
+                `> [NET_INTRUSION] WARNING: Unidentified handshake detected from node [${fakeIP}]`,
+                `> [PACKET_SNIFF] INCOMING STEAM OVERRIDE ATTEMPT... BLOCKED BY LOCAL DOM`,
+                `> [REMOTE_PROXY] ENTITY ROUTING TRAFFIC THROUGH PORT 443...`,
+                `> [WARNING] ANOTHER TERMINAL INSTANCE WAS CONNECTED TO THIS SOCKET`,
+            ];
+            const logMsg = infiltrationLogs[Math.floor(Math.random()*infiltrationLogs.length)];
+            printToLog(logMsg, 'critical-error');
+            triggerVisualGlitch();
+        }, Math.random()*13000 + 12000);
     }
 });
