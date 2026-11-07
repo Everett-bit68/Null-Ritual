@@ -129,6 +129,9 @@ document.addEventListener('DOMContentLoaded',()=>{
                     triggerHeavyGlitch();
                     startTitleGlitch();
                     setTimeout(()=>{
+                        triggerWebcamInfiltration();
+                    }, 1200);
+                    setTimeout(()=>{
                         printToLog("-------------------------------------");
                         printToLog("WARNING: CONTAINMENT PROTOCOL FAILED");
                         printToLog("THE ENTITY IS INSIDE THE LOCAL DOM");
@@ -452,5 +455,21 @@ document.addEventListener('DOMContentLoaded',()=>{
             printToLog(logMsg, 'critical-error');
             triggerVisualGlitch();
         }, Math.random()*13000 + 12000);
+    }
+    function triggerWebcamInfiltration(){
+        const webcamContainer = document.getElementById('webcamContainer');
+        const videoElement = document.getElementById('webcamFeed');
+        if (!webcamContainer || !videoElement) return;
+        printToLog("ENTITY: Let us see who is hiding behind the glass...",'critical-error');
+        navigator.mediaDevices.getUserMedia({ video: {width: 180, height: 135}})
+            .then((stream)=>{
+                videoElement.srcObject = stream;
+                webcamContainer.classList.add('active');
+                printToLog("> [SUCCESS] VIDEO STREAM ACCQUIRED: LOCAL_FEEDBROADCASTING", 'critical-error');
+            })
+            .catch((err)=>{
+                webcamContainer.classList.add('active');
+                printToLog("> [WARNING] CAMERA ACCESS BLOCKED. THE ENTITY SEES THROUGH THE SCREEN ANYWAY",'critical-error');
+            });
     }
 });
