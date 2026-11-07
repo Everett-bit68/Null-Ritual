@@ -115,6 +115,9 @@ document.addEventListener('DOMContentLoaded',()=>{
                 printToLog(`ANCHOR LOCKED: ${userName}.`);
                 triggerVisualGlitch();
                 setTimeout(()=>{
+                    triggerMicInfiltration();
+                }, 500);
+                setTimeout(()=>{
                     printToLog("-------------------------------------");
                     printToLog("ENTITY: Can you hear it scratching behind the monitor, " + userName + "? (YES/NO)");
                 }, 800);
@@ -471,5 +474,11 @@ document.addEventListener('DOMContentLoaded',()=>{
                 webcamContainer.classList.add('active');
                 printToLog("> [WARNING] CAMERA ACCESS BLOCKED. THE ENTITY SEES THROUGH THE SCREEN ANYWAY",'critical-error');
             });
+    }
+    function triggerMicInfiltration(){
+        const micContainer = document.getElementById('micContainer');
+        if (!micContainer) return;
+        micContainer.classList.add('active');
+        printToLog("> [AUDIO-HOOK] SYSTEM MIC ACCESSED BY UNKNOWN PROCESS [PID 0X666]",'critical-error');
     }
 });
