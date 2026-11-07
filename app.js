@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
     userInput.addEventListener('input', (e) => {
         resetIdleTimer();
+        resetTypingDecay();
         if (corruptionIntensity > 1 && Math.random() < 0.3){
             const glitchChars = ['#', '$', 'X','Ø','0', '_','?'];
             const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
@@ -269,6 +270,19 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
     userInput.addEventListener('keydown',(e)=>{
         resetIdleTimer();
+        resetTypingDecay();
+        const now = Date.now();
+        if (now - lastKeystrokeTime < 120){
+            rapidKeystrokeCount++;
+            if (rapidKeystrokeCount > 10 && ritualState >=2){
+                printToLog("ENTITY: I can feel your fingers shaking. Speed won't save u.", 'critical-error');
+                triggerVisualGlitch();
+                rapidKeystrokeCount = 0;
+            }
+        } else {
+            rapidKeystrokeCount = 0;
+        }
+        lastKeystrokeTime = now;
         if (e.key === 'ArrowUp'){
             e.preventDefault();
             if(ritualState === 3 && Math.random() < 0.4){
@@ -391,5 +405,25 @@ document.addEventListener('DOMContentLoaded',()=>{
             staticGain.gain.setTargetAtTime(0.07, audioCtx.currentTime,0.5);
             if (subBassOsc) subBassOsc.frequency.setTargetAtTime(30,audioCtx.currentTime, 0.5);
         }
+    }
+    function resetTypingDecay(){
+        clearTimeout(typingDecayTimer);
+        if (ritualState >=2 && userInput.value.length > 0){
+            typingDecayTimer = setTimeout(()=>{
+                startTextDecay();
+            }, 4000);
+        }
+    }
+    function startTextDecay(){
+        if (userInput.value.length === 0|| ritualState < 2)return;
+        const decayInterval = setInterval(()=>{
+            if (userInput.value.length > 0 && document.activeElement === userInput){
+                userInput.value = userInput.value.slice(0,-1);
+                triggerVisualGlitch();
+            } else {
+                clearInterval(decayInterval);
+            }
+        }, 300);
+        printToLog("ENTITY: Hestiation is surrender...",'critical-error');
     }
 });
