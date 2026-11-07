@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
     if (ritualState > 0){
         startAmbientAudio();
-        updateAudioIntensity();
+        updateAudioIntensity(corruptionIntensity);
         startNetworkInfiltration();
         bootSequence.push(
             `YOU CAME BACK, ${userName || 'VESSEL'}. YOU CANNOT UNDRAW THE CIRCLE`,
