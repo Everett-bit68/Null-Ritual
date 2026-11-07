@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     let staticNode = null;
     let staticGain = null;
     const IDLE_TIMEOUT = 20000;
+    let lastKeystrokeTime = 0;
+    let rapidKeystrokeCount = 0;
+    let typingDecayTimer = null;
     const bootSequence = [];
     let totalResets = parseInt(localStorage.getItem('nullRitualResets'))||0;
     let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
@@ -424,6 +427,6 @@ document.addEventListener('DOMContentLoaded',()=>{
                 clearInterval(decayInterval);
             }
         }, 300);
-        printToLog("ENTITY: Hestiation is surrender...",'critical-error');
+        printToLog("ENTITY: Hesitation is surrender...",'critical-error');
     }
 });
