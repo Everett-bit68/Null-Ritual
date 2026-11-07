@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     let staticGain = null;
     const IDLE_TIMEOUT = 20000;
     const bootSequence = [];
+    let totalResets = parseInt(localStorage.getItem('nullRitualResets'))||0;
+    let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
     if (ritualState > 0){
         bootSequence.push(
             `YOU CAME BACK, ${userName || 'VESSEL'}. YOU CANNOT UNDRAW THE CIRCLE`,
@@ -33,14 +35,25 @@ document.addEventListener('DOMContentLoaded',()=>{
             bootSequence.push(`RESUMING SESSION...`);
             bootSequence.push("State your true name to anchor your soul to this terminal:");
         }
-    } else{
-        bootSequence.push(
-        "INITIALIZING Null Ritual...",
-        "ESTABLISHING SECURE HANDSHAKE WITH UNKNOWN NODE...",
-        "WARNING: Session monitored by unauthorized entity.",
-        "--------------------------------------------------",
-        "Type 'BEGIN' to initiate the connection, or 'HELP' for instructions."
-        );
+    } else {
+        if (totalResets > 0){
+            bootSequence.push(
+                `WARNING: STORAGE CORRUPTION DETECTED. ITERATION #${totalResets + 1}`,
+                `ENTITY: I remember your previous attempts...`
+            );
+            if (pastNamesList.length > 0){
+                bootSequence.push(`ENTITY: You tried to hide from me as '${pastNamesList[pastNamesList.length-1]}'. It didn't work then either.`);
+            }
+            bootSequence.push("-----------------------------------------");
+        } else {
+            bootSequence.push(
+            "INITIALIZING Null Ritual...",
+            "ESTABLISHING SECURE HANDSHAKE WITH UNKNOWN NODE...",
+            "WARNING: Session monitored by unauthorized entity.",
+            "--------------------------------------------------",
+            );
+        }
+        bootSequence.push("Type 'BEGIN' to initiate the connection, or 'HELP' for instructions");
     }
     function printToLog(text, className = ''){
         const line = document.createElement('div');
@@ -202,8 +215,16 @@ document.addEventListener('DOMContentLoaded',()=>{
                 printToLog("THE TERMINAL REFUSES TO FORGET");
                 return true;
             case 'RESET':
+                let resets = parseInt(localStorage.getItem('nullRitualResets'))||0;
+                resets++;
+                let pastNames = JSON.parse(localStorage.getItem('nullRitualHistoryNames'))|| [];
+                if (userName && !pastNames.includes(userName)){
+                    pastNames.push(userName);
+                }
                 localStorage.clear();
-                printToLog("LOCAL MEMORY WIPED. (Refresh page to restart boot)");
+                localStorage.setItem('nullRitualResets', resets);
+                localStorage.setItem('nullRitualHistoryNames', JSON.stringify(pastNames));
+                printToLog(`LOCAL MEMORY WIPED. (Iteration #${resets} logged. Refresh to start)`);
                 return true;
             default:
                 return false;
@@ -234,7 +255,15 @@ document.addEventListener('DOMContentLoaded',()=>{
     window.addEventListener('keydown',()=>{
         const crashOverlay = document.getElementById("crashOverlay");
         if (crashOverlay && crashOverlay.classList.contains('active')){
+            let resets = parseInt(localStorage.getItem('nullRitualResets'))||0;
+            resets ++;
+            let pastNames = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
+            if (userName && !pastNames.includes(userName)){
+                pastNames.push(userName);
+            }
             localStorage.clear();
+            localStorage.setItem('nullRitualResets', resets);
+            localStorage.setItem('nullRitualHistoryNames', JSON.stringify(pastNames));
             location.reload();
         }
     });
