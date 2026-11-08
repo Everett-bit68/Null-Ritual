@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     let rapidKeystrokeCount = 0;
     let typingDecayTimer = null;
     let networkInfiltrationTimer = null;
+    let selfDestructTimer = 60;
     const bootSequence = [];
     let totalResets = parseInt(localStorage.getItem('nullRitualResets'))||0;
     let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
@@ -133,13 +134,16 @@ document.addEventListener('DOMContentLoaded',()=>{
                     startTitleGlitch();
                     setTimeout(()=>{
                         triggerWebcamInfiltration();
-                    }, 1200);
+                    }, 1000);
+                    setTimeout(()=>{
+                        startSelfDestructCountdown();
+                    }, 1800);
                     setTimeout(()=>{
                         printToLog("-------------------------------------");
                         printToLog("WARNING: CONTAINMENT PROTOCOL FAILED");
                         printToLog("THE ENTITY IS INSIDE THE LOCAL DOM");
                         printToLog("Type 'PURGE' to attempt emergency abort");
-                    }, 1000);
+                    }, 2200);
                 } else {
                     printToLog("The entity demands a binary answer: YES or NO");
                 }
@@ -480,5 +484,31 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (!micContainer) return;
         micContainer.classList.add('active');
         printToLog("> [AUDIO-HOOK] SYSTEM MIC ACCESSED BY UNKNOWN PROCESS [PID 0X666]",'critical-error');
+    }
+    function startSelfDestructCountdown(){
+        if (selfDestructTimer) return;
+        const diagHeader = document.getElementById('diagHeader');
+        const countdownDisplay = document.getElementById('countdownTimer');
+        if (diagHeader) diagHeader.classList.add('critical');
+        printToLog("> [SYSTEM ALERT] CORE TEMP OVERHEAT DETECTED. AUTO-PURGE INITIATED", 'critical-error');
+        selfDestructTimer = setInterval(()=>{
+            timeRemaining--;
+            const fakeTemp = (38.2 + (60-timeRemaining)* 1.12).toFixed(1);
+            const secondStr = timeRemaining < 10 ? `0${timeRemaining}`: `${timeRemaining}`;
+            if (countdownDisplay){
+                countdownDisplay.textContent = `CORE TEMP: ${fakeTemp}°C | CRITICAL PURGE: 00:${secondStr}`;
+            }
+            if (timeRemaining === 30){
+                printToLog("WARNING: Memory registers melting. DOM nodes corrupting...", 'critical-error');
+                triggerVisualGlitch();
+            } else if (timeRemaining === 10){
+                printToLog("CRITICAL: 10 SECONDS UNTIL SYSTEM SHUTDOWN.", 'critical-error');
+                triggerHeavyGlitch();
+            }
+            if (timeRemaining <= 0){
+                clearInterval(selfDestructTimer);
+                triggerCriticalFailure();
+            }
+        }, 1000);
     }
 });

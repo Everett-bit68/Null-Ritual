@@ -56,6 +56,24 @@ body.terminal-theme{
 .mic-infiltration-overlay.active{
     display: block; animation: pulse-mic 1s infinite alternate;
 }
+.diagnostic-header{
+    display: flex;justify-content: space-between;align-items: center;border-bottom: 1px solid var(--text-color);
+    padding-bottom: 8px; margin-bottom: 12px; font-size: 0.75rem;
+}
+.timer-display{
+    color: #9f1e1e; font-weight: bold;
+}
+.diagnostic-header.critical{
+    border-color: #ff3333; animation: flash-header 0.5s infinite alternate;
+}
+.diagnostic-header.critical .diag-title,
+.diagnostic-header.critical .timer-display{
+    color: #ff3333;
+}
+@keyframes flash-header{
+    0%{background: transparent;}
+    100%{background: rgba(168,32,32,0.3);}
+}
 @keyframes jitter {
     0%{transform: translate(1px, -1px);}
     100%{transform: translate(-2px, 2px);}
