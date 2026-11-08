@@ -150,11 +150,14 @@ document.addEventListener('DOMContentLoaded',()=>{
                         startSelfDestructCountdown();
                     }, 1800);
                     setTimeout(()=>{
+                        triggerEntityMimicry();
+                    }, 3000);
+                    setTimeout(()=>{
                         printToLog("-------------------------------------");
                         printToLog("WARNING: CONTAINMENT PROTOCOL FAILED");
                         printToLog("THE ENTITY IS INSIDE THE LOCAL DOM");
                         printToLog("Type 'PURGE' to attempt emergency abort");
-                    }, 2200);
+                    }, 4500);
                 } else {
                     printToLog("The entity demands a binary answer: YES or NO");
                 }
@@ -533,5 +536,30 @@ document.addEventListener('DOMContentLoaded',()=>{
         const randomEcho = ghostPhrases[Math.floor(Math.random()*ghostPhrases.length)];
         userInput.value += randomEcho;
         triggerVisualGlitch();
+    }
+    function triggerEntityMimicry(){
+        if (ritualState <2) return;
+        const totalResets = parseInt(localStorage.getItem('nullRitualResets')) || 0;
+        const pastNames = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
+        let mimicryMessages = [
+            `> [MEMORY_DUMP] RE-EVALUATING SUBJECT... PREVIOUS VESSEL SIGNATURE MATCHES ITERATION #${totalResets}`,
+        ];
+        if (pastNames.length>0){
+            const randomPastName = pastNames[Math.floor(Math.random()*pastNames.length)];
+            mimicryMessages.push(`> [LOG_INTRUSION] You begged for mercy as '${randomPastName}' last time. Did u think changing names would fool me?`);
+        } else {
+            mimicryMessages.push(`> [LOG_INTRUSTION] I recognize the exact rhythm of your keystrokes from loop #${totalResets}`);
+        }
+        const fakeCommandEchoes = [
+            `> [ECHO_HISTORY] User previously executed: 'HELP' -> Ignored.`,
+            `> [ECHO_HISTORY] User previously executed: 'WHOIS' -> Subject is entirely unanchored`,
+            `> [ECHO_HISTORY] User previously executed: 'PURGE' -> Failed on attempt #${totalResets}`
+        ];
+        mimicryMessages.forEach((msg, index)=>{
+            setTimeout(()=>{
+                printToLog(msg, 'critical-error');
+                triggerVisualGlitch();
+            }, index * 1200);
+        });
     }
 });
