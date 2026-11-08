@@ -16,27 +16,41 @@
     <p>>Press any key to surrender control...</p>
     </div>
     <div class="workstation-container">
-            <div id="diagHeader" class="global-header">
-                <span class="diag-title">⚠️ SYSTEM STATUS: STABLE</span>
-                <span id="countdownTimer" class="timer-display">CORE TEMP: 38.2°C | REMAINING: --/--</span>
-            </div>
-    <div class="surveillance-panel">
-        <div class="sidebar-widget">
-            <div style="margin-bottom: 5px; font-weight: bold;">[HW_MONITOR_CAM_01]</div>
-            <div id="webcamContainer" class="webcam-infiltration-overlay">
-                <video id="webcamFeed" autoplay playsinline muted></video>
-                <div class="cam-ui-overlay">REC [ENCRYPTED_FEED]</div>
-            </div>
-            <div id="camPlaceHolder" style="color: #500; font-style: italic;">SIGNAL STANDBY...</div>
+        <div id="diagHeader" class="global-header">
+            <span class="diag-title">⚠️ SYSTEM STATUS: STABLE</span>
+            <span id="countdownTimer" class="timer-display">CORE TEMP: 38.2°C | REMAINING: --/--</span>
         </div>
-    </div>
-        <div id="micContainer" class="mic-infiltration-overlay">
-            <span class="mic-dot">🔴</span> MIC_ACTIVE // CAPTURING_AUDIO
+        <div class="terminal-container">
+            <div id="outputLog" class="output-log"></div>
+            <div class="input-line">
+                <span class="prompt">&gt;</span>
+                <input type="text" id="userInput" autofocus autocomplete="off" spellcheck="false"></input>
+            </div>
         </div>
-        <div id="outputLog" class="output-log"></div>
-        <div class="input-line">
-            <span class="prompt">&gt;</span>
-            <input type="text" id="userInput" autofocus autocomplete="off" spellcheck="false"></input>
+        <div class="surveillance-panel">
+            <div class="sidebar-widget">
+                <div style="margin-bottom: 5px; font-weight: bold;">[HW_MONITOR_CAM_01]</div>
+                <div id="webcamContainer" class="webcam-infiltration-overlay">
+                    <video id="webcamFeed" autoplay playsinline muted></video>
+                    <div class="cam-ui-overlay">REC [ENCRYPTED_FEED]</div>
+                </div>
+                <div id="camPlaceHolder" style="color: #500; font-style: italic;">SIGNAL STANDBY...</div>
+            </div>
+            <div class="sidebar-widget">
+                <div style="margin-bottom: 5px; font-weight: bold;">[AUDIO_CAPTURE_HOOK]</div>
+                <div id="micContainer" class="mic-infiltration-overlay">
+                    <span class="mic-dot">🔴</span> MIC_ACTIVE // CAPTURING_AUDIO (PID 0X666)
+                </div>
+                <div id="micPlaceholder" style="color: #500;font-style: italic;">LINE MUTED</div>
+            </div>
+            <div class="sidebar-widget" style="flex-grow: 1;">
+                <div style="margin-bottom: 5px; font-weight: bold;">[PROCESS_INSPECTOR]</div>
+                <div id="processLog" style="font-size: 0.65rem; color: #700; line-height: 1.4;">
+                    PID 404: kernel_init [OK]<br>
+                    PID 666: unknown_daem [RUNNING]<br>
+                    PID 333: soul_anchor [LOCKED]
+                </div>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>

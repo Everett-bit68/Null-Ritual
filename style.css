@@ -39,7 +39,7 @@ body.terminal-theme{
     box-shadow: 0 0 10px rgba(168,32,32,0.8); overflow: hidden;
 }
 .webcam-infiltration-overlay.active{
-    display: block; animation: pulse-mic 1s infinite alternate;
+    display: block;
 }
 #webcamFeed{
     width: 100%; height: 100%; object-fit: cover; filter: contrast(200%) grayscale(100%) brightness(70%) sepia(100%) hue-rotate(300deg);
@@ -72,7 +72,15 @@ body.terminal-theme{
 }
 .sidebar-widget{
     border: 1px dashed var(--text-color); padding: 10px; font-size: 0.75rem;
-
+}
+.surveillance-panel{
+    border: 1px solid var(--text-color); box-shadow: 0 0 15px rgba(168,32,32,0.4); padding: 15px;
+    display: flex; flex-direction: column; gap: 15px; height: 100%; box-sizing: border-box;
+    background: rgba(20,0,0,0.3);
+}
+.terminal-container{
+    border: 1px solid var(--text-color); box-shadow: 0 0 15px rgba(168,32,32,0.4); padding: 20px;
+    display: flex; flex-direction: column; height: 100%; box-sizing: border-box;
 }
 @keyframes flash-header{
     0%{background: transparent;}
