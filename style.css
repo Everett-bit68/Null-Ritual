@@ -12,7 +12,7 @@ body.terminal-theme{
     max-width: 1200px; height: 85vh;
 }
 .output-log{
-    flex-grow: 1; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; margin-bottom: 10px;
+    flex-grow: 1; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; margin-bottom: 10px; min-height: 0;
 }
 .input-line{
     display: flex; gap: 10px;
@@ -81,7 +81,8 @@ body.terminal-theme{
 }
 .terminal-container{
     border: 1px solid var(--text-color); box-shadow: 0 0 15px rgba(168,32,32,0.4); padding: 20px;
-    display: flex; flex-direction: column; height: 100%; box-sizing: border-box;
+    display: flex; flex-direction: column; height: 100%; box-sizing: border-box; max-height: 100%;
+    overflow: hidden;
 }
 @keyframes flash-header{
     0%{background: transparent;}
