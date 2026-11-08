@@ -548,7 +548,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             const randomPastName = pastNames[Math.floor(Math.random()*pastNames.length)];
             mimicryMessages.push(`> [LOG_INTRUSION] You begged for mercy as '${randomPastName}' last time. Did u think changing names would fool me?`);
         } else {
-            mimicryMessages.push(`> [LOG_INTRUSTION] I recognize the exact rhythm of your keystrokes from loop #${totalResets}`);
+            mimicryMessages.push(`> [LOG_INTRUSION] I recognize the exact rhythm of your keystrokes from loop #${totalResets}`);
         }
         const fakeCommandEchoes = [
             `> [ECHO_HISTORY] User previously executed: 'HELP' -> Ignored.`,

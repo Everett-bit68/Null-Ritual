@@ -15,15 +15,21 @@
     <br>
     <p>>Press any key to surrender control...</p>
     </div>
-    <div class="terminal-container">
-        <div id="diagHeader" class="diagnostic-header">
-            <span class="diag-title">⚠️ SYSTEM STATUS: STABLE</span>
-            <span id="countdownTimer" class="timer-display">CORE TEMP: 38.2°C | REMAINING: --/--</span>
+    <div class="workstation-container">
+            <div id="diagHeader" class="global-header">
+                <span class="diag-title">⚠️ SYSTEM STATUS: STABLE</span>
+                <span id="countdownTimer" class="timer-display">CORE TEMP: 38.2°C | REMAINING: --/--</span>
+            </div>
+    <div class="surveillance-panel">
+        <div class="sidebar-widget">
+            <div style="margin-bottom: 5px; font-weight: bold;">[HW_MONITOR_CAM_01]</div>
+            <div id="webcamContainer" class="webcam-infiltration-overlay">
+                <video id="webcamFeed" autoplay playsinline muted></video>
+                <div class="cam-ui-overlay">REC [ENCRYPTED_FEED]</div>
+            </div>
+            <div id="camPlaceHolder" style="color: #500; font-style: italic;">SIGNAL STANDBY...</div>
         </div>
-        <div id="webcamContainer" class="webcam-infiltration-overlay">
-            <video id="webcamFeed" autoplay playsinline muted></video>
-            <div class="cam-ui-overlay">REC [ENCRYPTED_FEED] // CAM_01</div>
-        </div>
+    </div>
         <div id="micContainer" class="mic-infiltration-overlay">
             <span class="mic-dot">🔴</span> MIC_ACTIVE // CAPTURING_AUDIO
         </div>

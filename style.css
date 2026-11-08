@@ -7,9 +7,9 @@ body.terminal-theme{
     background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-stack); height: 100vh;
     margin: 0; display: flex; justify-content: center; align-items: center; overflow: hidden;
 }
-.terminal-container{
-    width: 90%; max-width: 800px; height: 80vh; border: 1px solid var(--text-color);
-    box-shadow: 0 0 15px rgba(168,32,32,0.4); padding: 20px; display: flex; flex-direction: column;
+.workstation-container{
+    display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 40px 1fr; gap: 15px; width: 95%;
+    max-width: 1200px; height: 85vh;
 }
 .output-log{
     flex-grow: 1; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; margin-bottom: 10px;
@@ -56,18 +56,18 @@ body.terminal-theme{
 .mic-infiltration-overlay.active{
     display: block; animation: pulse-mic 1s infinite alternate;
 }
-.diagnostic-header{
-    display: flex;justify-content: space-between;align-items: center;border-bottom: 1px solid var(--text-color);
-    padding-bottom: 8px; margin-bottom: 12px; font-size: 0.75rem;
+.global-header{
+    grid-column: 1/-1; border: 1px solid var(--text-color); display: flex; justify-content: space-between;align-items: center; padding: 0 15px; font-size: 0.8rem;
+    box-shadow: 0 0 10px rgba(168,32,32,0.2);
 }
 .timer-display{
     color: #9f1e1e; font-weight: bold;
 }
-.diagnostic-header.critical{
+.global-header.critical{
     border-color: #ff3333; animation: flash-header 0.5s infinite alternate;
 }
-.diagnostic-header.critical .diag-title,
-.diagnostic-header.critical .timer-display{
+.global-header.critical .diag-title,
+.global-header.critical .timer-display{
     color: #ff3333;
 }
 @keyframes flash-header{
