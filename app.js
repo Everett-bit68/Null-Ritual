@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     let rapidKeystrokeCount = 0;
     let typingDecayTimer = null;
     let networkInfiltrationTimer = null;
-    let selfDestructTimer = 60;
+    let selfDestructTimer = null;
+    let timeRemaining = 60;
     const bootSequence = [];
     let totalResets = parseInt(localStorage.getItem('nullRitualResets'))||0;
     let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
@@ -36,6 +37,9 @@ document.addEventListener('DOMContentLoaded',()=>{
             bootSequence.push("Type 'PURGE' to attempt emergency abort");
             startTitleGlitch(userName);
             triggerHeavyGlitch();
+            setTimeout(()=>{
+                startSelfDestructCountdown();
+            }, 1000);
         } else if(ritualState === 2){
             bootSequence.push(`RESUMING SESSION...`);
             bootSequence.push(`ENTITY: Can you hear it scratching behind the monitor, ${userName || 'VESSEL'}? (YES/NO)`);
