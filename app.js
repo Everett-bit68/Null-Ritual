@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     let networkInfiltrationTimer = null;
     let selfDestructTimer = null;
     let timeRemaining = 60;
+    let ghostTypingTimer = null;
     const bootSequence = [];
     let totalResets = parseInt(localStorage.getItem('nullRitualResets'))||0;
     let pastNamesList = JSON.parse(localStorage.getItem('nullRitualHistoryNames')) || [];
@@ -83,10 +84,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     userInput.addEventListener('input', (e) => {
         resetIdleTimer();
         resetTypingDecay();
+        clearTimeout(ghostTypingTimer);
         if (corruptionIntensity > 1 && Math.random() < 0.3){
             const glitchChars = ['#', '$', 'X','Ø','0', '_','?'];
             const randomChar = glitchChars[Math.floor(Math.random() * glitchChars.length)];
             userInput.value += randomChar;
+        }
+        if (ritualState >=2 && userInput.value.length > 3){
+            ghostTypingTimer = setTimeout(()=>{
+                injectGhostEcho();
+            }, 1800);
         }
     });
     function ProcessRitualState(cmd){
@@ -514,5 +521,17 @@ document.addEventListener('DOMContentLoaded',()=>{
                 triggerCriticalFailure();
             }
         }, 1000);
+    }
+    function injectGhostEcho(){
+        if (document.activeElement !== userInput || userInput.value.length === 0)return;
+        const ghostPhrases = [
+            "...you can't save them",
+            "...why fight it?",
+            "...useless words",
+            "...look behind the screen"
+        ];
+        const randomEcho = ghostPhrases[Math.floor(Math.random()*ghostPhrases.length)];
+        userInput.value += randomEcho;
+        triggerVisualGlitch();
     }
 });
