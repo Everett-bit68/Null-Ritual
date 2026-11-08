@@ -486,10 +486,12 @@ document.addEventListener('DOMContentLoaded',()=>{
             .then((stream)=>{
                 videoElement.srcObject = stream;
                 webcamContainer.classList.add('active');
+                if (camPlaceholder) camPlaceholder.style.display = 'none';
                 printToLog("> [SUCCESS] VIDEO STREAM ACCQUIRED: LOCAL_FEEDBROADCASTING", 'critical-error');
             })
             .catch((err)=>{
                 webcamContainer.classList.add('active');
+                if (camPlaceholder) camPlaceholder.style.display = 'none';
                 printToLog("> [WARNING] CAMERA ACCESS BLOCKED. THE ENTITY SEES THROUGH THE SCREEN ANYWAY",'critical-error');
             });
     }
@@ -497,6 +499,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         const micContainer = document.getElementById('micContainer');
         if (!micContainer) return;
         micContainer.classList.add('active');
+        if (micPlaceholder) micPlaceholder.style.display = 'none';
         printToLog("> [AUDIO-HOOK] SYSTEM MIC ACCESSED BY UNKNOWN PROCESS [PID 0X666]",'critical-error');
     }
     function startSelfDestructCountdown(){

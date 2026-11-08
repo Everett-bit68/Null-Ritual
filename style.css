@@ -50,8 +50,9 @@ body.terminal-theme{
     padding: 1px 3px; font-family: 'Courier New', monospace;
 }
 .mic-infiltration-overlay{
-    position: absolute; bottom: 20px; right: 20px; font-size: 0.65rem; color: #ff3333; background: rgba(0,0,0,0.85);
-    border: 1px solid #a82020; padding: 4px 8px; display: none; z-index: 100; font-family: 'Courier New', monospace; box-shadow: 0 0 8px rgba(168,32,32,0.5);
+    position: relative; width: 100%; box-sizing: border-box;font-size: 0.65rem;color: #ff3333;
+    background: rgba(0,0,0,0.85); border: 1px solid #a82020; padding: 6px 8px; display: none;
+    z-index: 10; font-family: 'Courier New', monospace; box-shadow: 0 0 8px rgba(168,32,32,0.5);
 }
 .mic-infiltration-overlay.active{
     display: block; animation: pulse-mic 1s infinite alternate;
